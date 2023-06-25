@@ -37,10 +37,10 @@ fig, ax = plt.subplots()
 ax.set_xlim([-5, 5])
 ax.set_ylim([-5, 5])
 
-obj = ax.plot([], [], "-", color="blue")
-sp = ax.plot([], [], color="red")
+obj, = ax.plot([], [], "-", color="blue")
+sp, = ax.plot([], [], color="red")
 
-pos_arr, sp_arr = sim(x, speed)
+(pos_arr, sp_arr) = sim(x, speed)
 
 
 def init():
@@ -49,14 +49,12 @@ def init():
 
 
 def step(i):
-    obj.set_data(pos_arr[i][0], pos_arr[i][1])
+    obj.set_data([pos_arr[i][0]], [pos_arr[i][1]])
     return obj
 
-temp = []
-for i in range(num_steps):
-    temp.append(i)
 
-ani = animation.FuncAnimation(fig, step, num_steps, interval=25, blit=True, init_func=init)
+ani = animation.FuncAnimation(fig, step, np.arange(0, num_steps),
+                              interval=5, blit=False, init_func=init)
 plt.show()
 
 # # folgende objekte sollen wie gezeichnet werden

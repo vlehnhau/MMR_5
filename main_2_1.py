@@ -20,7 +20,7 @@ def sim(x, speed):
     pos_arr = []
     speed_arr = []
 
-    for i in range(num_steps):
+    for i in range(0, num_steps):
         pos_arr.append(new_x)
         speed_arr.append(new_speed)
 
@@ -34,23 +34,35 @@ def sim(x, speed):
 
 
 fig, ax = plt.subplots()
-ax.set_xlim([-5, 5])
-ax.set_ylim([-5, 5])
+ax.set_aspect('equal')
+ax.set_xlim([-20, 20])
+ax.set_ylim([-20, 20])
 
 obj, = ax.plot([], [], "-", color="blue")
 sp, = ax.plot([], [], color="red")
+text = ax.text(0.05, 0.9, '', transform=ax.transAxes)
 
 (pos_arr, sp_arr) = sim(x, speed)
+
+xplot = []
+yplot = []
+for i in range(len(pos_arr)):
+    xplot.append(pos_arr[i][0])
+    yplot.append(pos_arr[i][1])
 
 
 def init():
     obj.set_data([], [])
-    return obj
+    text.set_text('')
+    ax.plot(0, 0, "x", color="red")
+    ax.plot(xplot, yplot, color="black")
+    return obj, text
 
 
 def step(i):
     obj.set_data([pos_arr[i][0]], [pos_arr[i][1]])
-    return obj
+    text.set_text("Schritt: " + str(i))
+    return obj, text
 
 
 ani = animation.FuncAnimation(fig, step, np.arange(0, num_steps),

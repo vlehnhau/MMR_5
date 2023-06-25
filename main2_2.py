@@ -10,14 +10,14 @@ h = 0.01
 g = 9.81
 colors = ["green", "red", "blue", "black", "orange"]
 
-def sim(angles, lengths, itr):
+def sim(angles, lengths, itr, c):
     angle_arr = [angles]
     speed_arr = np.zeros(len(angles))       # Am Anfang haben alle Pendel keine Geschwindkeit
     vectorsin = np.vectorize(sin)           # Nötig um sin auf Arrays anzuwenden
 
     for i in range(itr):
         angles = angles + speed_arr * h
-        speed_arr = speed_arr - ((g/lengths) * vectorsin(angles))
+        speed_arr = speed_arr - ((g/lengths) * vectorsin(angles)) * c
         angle_arr.append(angles)
     return angle_arr
 
@@ -44,7 +44,7 @@ for i in range(len(angles)):
     pos.append(p)
     lines.append(l)
 
-angle_arr = sim(angles, lengths, num_itr)
+angle_arr = sim(angles, lengths, num_itr, 0.2)
 
 def init():
     for i in range(len(pos)):

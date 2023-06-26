@@ -30,7 +30,7 @@ def sim(pos, speed):
 
         old_pos = next_pos
         old_speed = next_speed
-    return pos_arr
+    return pos_arr, speed_arr
 
 
 fig, ax = plt.subplots()
@@ -38,15 +38,17 @@ ax.set_xlim([-2, 2])
 ax.set_ylim([-2, 2])
 
 pos, = ax.plot([], [], "o", color="black")
+sp, = ax.plot([], [], color="red")
 text = ax.text(0.1, 0.1, '', transform=ax.transAxes)
 
-pos_arr = sim(xy_pos, speed)
+pos_arr, speed_arr = sim(xy_pos, speed)
 
 plot_x = []
 plot_y = []
 for i in range(len(pos_arr)):
     plot_x.append(pos_arr[i][0])
     plot_y.append(pos_arr[i][1])
+
 
 def init():
     pos.set_data([], [])
@@ -60,9 +62,11 @@ def init():
 
 def step(i):
     pos.set_data(pos_arr[i][0], pos_arr[i][1])
+    sp.set_data([pos_arr[i][0], pos_arr[i][0] + speed_arr[i][0]],
+                [pos_arr[i][1], pos_arr[i][1] + speed_arr[i][1]])
     text.set_text("Step: " + str(i))
 
-    return pos, text
+    return pos, sp, text
 
 
 ani = animation.FuncAnimation(fig, step, np.arange(0, num_itr), interval=5, blit=False, init_func=init)

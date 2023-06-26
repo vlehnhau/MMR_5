@@ -72,3 +72,4 @@ def step(i):
 ani = animation.FuncAnimation(fig, step, np.arange(0, num_itr), interval=5, blit=False, init_func=init)
 
 plt.show()
+
